@@ -141,13 +141,23 @@ def parse(line):
                     else:
                         temp=[val, 0, 0, linum, linum]
         linum+=1
-
-
+def correct(f):
+    from tokenize import generate_tokens
+    import StringIO
+    l=f.readlines()
+    str=''
+    for s in l:
+        str+=s
+    for a,b,c,d,e in generate_tokens(StringIO.StringIO(str).readline):
+        print a,b,c,d,e
 if __name__ == '__main__':
     import sys
     import pandas as pd
+
     src='input.py'#sys.argv[1]
     file=open(src)
+    correct(file)
+    exit()
     tokens=[]
     index=['val','id','line','startPosition','endPosition']
     for val,index,li,sp,ep in parse(file.readlines()):
@@ -155,6 +165,6 @@ if __name__ == '__main__':
     df=pd.DataFrame(tokens)
     df=df.rename(columns={0:'val',1:'id',2:'line',3:'startPosition',4:'endPosition'})
     pd.DataFrame.to_csv(df,'output.csv')
-
+    print df
 
 
