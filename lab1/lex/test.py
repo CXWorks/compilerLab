@@ -104,8 +104,39 @@ def findWay(g,ns,w):
                 temp=findClo(g,no)
                 ans.extend(temp)
     return ans
-def minDFA(node):
-    pass
+def minDFA(node,index):
+    ans=[]
+    log=[]
+    for i in range(len(node)):
+        n=node[i]
+        if n in log:
+            continue
+        nto=index[n].values()
+        notin=[x for x in nto if x not in node]
+        if len(notin)>0 :
+            ans.append([n])
+            continue
+        t=[n]
+        for j in range(i+1,len(node)):
+            jto=index[node[j]].values()
+            if nto==jto :
+                t.append(j)
+                log.append(j)
+        ans.append(t)
+    return ans
+
+def delnode(n,conn,t,to):
+    del conn[n]
+    t[to].extend([x for x in t[n] if x not  in t[to]])
+    del t[n]
+    for k,v in conn.items():
+        if k != n :
+            for w in way:
+                if v.has_key(w) and v[w]==n :
+                    v[w]=to
+    return conn
+
+
 
 def nfa2dfa(nfa):
     table={}
@@ -133,8 +164,6 @@ def nfa2dfa(nfa):
             n2c[c]=idd
         conn[n]=n2c
     #minimise
-    print table
-    print conn
     s=[]
     e=[]
     for k,v in table.items():
@@ -142,18 +171,25 @@ def nfa2dfa(nfa):
             e.append(k)
         else:
             s.append(k)
-    t2=minDFA([s,e])
+    s2=minDFA(s,conn)
+    e2=minDFA(e,conn)
+    s2.extend(e2)
+    for l in s2:
+        if len(l) == 1:
+            continue
+        for i in range(1,len(l)):
+            conn=delnode(l[i],conn,table,l[0])
     #build graph
-    # g=nx.DiGraph()
-    # for k,v in table.items():
-    #
-    #     g.add_node(k)
-    #     if len(nfa.node) - 1 in v:
-    #         g.node[k]['e']=1
-    # for node,di in conn.items():
-    #     for c,t in di.items():
-    #         g.add_edge(node,t,c=c)
-    # return g
+    g=nx.DiGraph()
+    for k,v in table.items():
+
+        g.add_node(k)
+        if len(nfa.node) - 1 in v:
+            g.node[k]['e']=1
+    for node,di in conn.items():
+        for c,t in di.items():
+            g.add_edge(node,t,c=c)
+    return g
 
 
 
@@ -163,7 +199,10 @@ if __name__ == '__main__':
     f=open('re')
     nfa=re2nfa(f.readline())
     g=nfa2dfa(nfa)
-
+    print g.edge
+    print g.node
+    nx.draw_networkx(g)
+    plt.show()
     # print nfa.edge
     # a=findClo(nfa,0)
     # print a
