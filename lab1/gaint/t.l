@@ -10,8 +10,8 @@ int sem_count = 0;
 %%
 [0-9]*\.[0-9]*		{printf("DOUBLE[%s]",yytext);}
 [1-9]+[0-9]*		printf("INTEGER[%s]",yytext);
-[a-zA-Z][a-zA-Z0-9]*    {printf("WORD[%s] ", yytext);}
-[a-zA-Z0-9//.-]+        printf("FILENAME ");
+[a-zA-Z][a-zA-Z]*    {printf("WORD[%s] ", yytext);}
+[a-zA-Z//.-]+        printf("FILENAME ");
 
 %%
 //上面为规则定义部分，以下为函数定义部分
