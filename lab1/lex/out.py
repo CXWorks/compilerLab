@@ -1,41 +1,84 @@
-#include $incl
+
 relist=[]
 code=[]
-#for $inn,$graph in $re.items()
-#set $node=$graph['node']
-#set $edge=$graph['edge']
-#set $docode=$code[$inn]
-#set $func='switch'+str($inn)
-#set $codename='code'+str($inn)
-#attr $token='token'
 
-$func={}
-#for $k,$v in $node.items()
-def case$getVar('theVariable',$k)($token):
+switch0={}
+def case0(token):
     way={}
-    #for $n,$to in $edge[$k].items()
-    way['$to['c']']=$n
-    #end for
+    way['a']=1
+    way['b']=2
+    way['+']=3
     if way.has_key(token):
         return way[token]
     else:
-        #if $v.has_key('e')
-        return -1206
-        #else
         return -1
-        #end if
-$getVar('theVariable',$func)[$getVar('theVariable',$k)]=case$getVar('theVariable',$k)
-#end for
-relist.append($func)
-def $getVar('theVariable',$codename)(yytext,start,end):
-    $docode
-code.append($getVar('theVariable',$codename))
-#end for
+switch0[0]=case0
+def case1(token):
+    way={}
+    way['a']=1
+    way['b']=2
+    way['+']=3
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1
+switch0[1]=case1
+def case2(token):
+    way={}
+    way['a']=1
+    way['b']=2
+    way['+']=3
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1
+switch0[2]=case2
+def case3(token):
+    way={}
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1206
+switch0[3]=case3
+relist.append(switch0)
+def code0(yytext,start,end):
+    print yytext,start,end
+
+code.append(code0)
+
+switch1={}
+def case0(token):
+    way={}
+    way['a']=1
+    way['b']=2
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1
+switch1[0]=case0
+def case1(token):
+    way={}
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1206
+switch1[1]=case1
+def case2(token):
+    way={}
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1206
+switch1[2]=case2
+relist.append(switch1)
+def code1(yytext,start,end):
+    print yytext,start,end
+
+code.append(code1)
 
 
 
 
-#raw
 def next(str,i):
     while i<len(str) and str[i]==' ' :
         i+=1
@@ -84,4 +127,3 @@ if __name__ == '__main__':
 
 
 
-#end raw

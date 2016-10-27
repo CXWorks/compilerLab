@@ -1,0 +1,16 @@
+#raw
+#end raw
+
+#*
+
+(a|b)*\+
+##
+print yytext,start,end
+##
+
+a|b
+##
+print yytext,start,end
+##
+
+*#
