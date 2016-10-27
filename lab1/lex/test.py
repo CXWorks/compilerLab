@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 from collections import deque
+import Cheetah
 def isChar(c):
     return (c>='a' and c<='z') or (c>='A' and c<='Z') or (c>='0' and c<='9')
 way=[]
@@ -8,15 +9,28 @@ def re2nfa(re):
     _op_={'.':6,'|':7,'(':10}
     #add .
     full=[]
+    skip=False
     for i in range(len(re)):
+        if skip:
+            skip=False
+            continue
         full.append(re[i])
-        if re[i] not in _op_.keys() and i+1<len(re) and (isChar(re[i+1]) or re[i+1]=='('):
+        if re[i]=='\\':
+            i+=1
+            full.append(re[i])
+            skip=True
+        if re[i] not in _op_.keys() and i+1<len(re) and (isChar(re[i+1]) or re[i+1]=='(' or re[i+1]=='\\'):
             full.append('.')
     full.append('$')
     # back
     back=[]
     symb=[]
-    for c in full:
+    skip=False
+    for i in range(len(full)):
+        if skip:
+            skip=False
+            continue
+        c=full[i]
         if isChar(c):
             back.append(c)
             if c not in way:
@@ -30,17 +44,36 @@ def re2nfa(re):
                 back.append(symb.pop())
         elif c in ['*','+','?']:
             back.append(c)
+        elif c =='\\':
+            back.append(c)
+            i+=1
+            back.append(full[i])
+            skip=True
+            if full[i] not in way:
+                way.append(full[i])
         elif c in _op_.keys():
             while len(symb)>0 and symb[len(symb)-1]!='(' and _op_[symb[len(symb)-1]] >= _op_[c]:
                 back.append(symb.pop())
             symb.append(c)
+    print back
     #build nfa
     stack=[]
-    for c in back:
+    skip=False
+    for i in range(len(back)):
+        if skip:
+            skip=False
+            continue
+        c=back[i]
         if isChar(c):
             g=nx.DiGraph()
             g.add_edge(0,1,c=c)
             stack.append(g)
+        elif c=='\\':
+            i+=1
+            g=nx.DiGraph()
+            g.add_edge(0,1,c=back[i])
+            stack.append(g)
+            skip=True
         elif c== '.':
             g2=stack.pop()
             g1=stack.pop()
@@ -199,10 +232,8 @@ if __name__ == '__main__':
     f=open('re')
     nfa=re2nfa(f.readline())
     g=nfa2dfa(nfa)
-    print g.edge
     print g.node
-    nx.draw_networkx(g)
-    plt.show()
+    print g.edge
     # print nfa.edge
     # a=findClo(nfa,0)
     # print a
