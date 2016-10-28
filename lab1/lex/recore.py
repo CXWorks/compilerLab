@@ -1,8 +1,8 @@
 import networkx as nx
 from collections import deque
+import matplotlib.pyplot as plt
 
-
-def re2dfa(re):
+def re2dfa(re,debug=False):
     def isChar(c):
         return (c>='a' and c<='z') or (c>='A' and c<='Z') or (c>='0' and c<='9')
     way=[]
@@ -240,11 +240,18 @@ def re2dfa(re):
 
     nfa = re2nfa(re)
     g = nfa2dfa(nfa)
-    return [g.node,g.edge]
+    if debug:
+        return g
+    else:
+        return [g.node,g.edge]
 
 
 
 
 
 if __name__ == '__main__':
-    re2dfa('(0|1)+')
+    g=re2dfa('(0|1)+',debug=True)
+    print g.node
+    print g.edge
+    nx.draw_networkx(g)
+    plt.show()

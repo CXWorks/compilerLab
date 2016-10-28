@@ -1,5 +1,5 @@
 import Cheetah.Template as tem
-from test import re2dfa
+from recore import re2dfa
 def template(dic):
     return  tem.Template(file='template.tmpl',
                        searchList=[dic]).__str__()
