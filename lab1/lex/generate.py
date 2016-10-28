@@ -41,7 +41,11 @@ def parseCXL(p):
 
 
 if __name__ == '__main__':
-    s='self.cxl'
+    import sys
+    if len(sys.argv)<2:
+        s='self.cxl'
+    else:
+        s=sys.argv[1]
     re,code=parseCXL(s)
     dfa=[]
     for r in re:
@@ -54,6 +58,7 @@ if __name__ == '__main__':
     ttt=template(dic)
     py=open('out.py','w')
     py.write(ttt)
+    print 'generate finished!'
 
 
 

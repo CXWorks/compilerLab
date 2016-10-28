@@ -4,16 +4,16 @@
 #*
 (0|1|2|3)+
 ##
-print yytext,start,end
+print yytext,start,end,linnum
 ##
 
 (a|b|c)+
 ##
-print yytext,start,end
+print yytext,start,end,linnum
 ##
 
 =
 ##
-print yytext,start,end
+print yytext,start,end,linnum
 ##
 *#

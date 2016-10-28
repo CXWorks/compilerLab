@@ -27,7 +27,7 @@ def case1(token):
 switch0[1]=case1
 relist.append(switch0)
 def code0(yytext,start,end):
-    print yytext,start,end
+    print yytext,start,end,linnum
 
 code.append(code0)
 
@@ -54,7 +54,7 @@ def case1(token):
 switch1[1]=case1
 relist.append(switch1)
 def code1(yytext,start,end):
-    print yytext,start,end
+    print yytext,start,end,linnum
 
 code.append(code1)
 
@@ -76,7 +76,7 @@ def case1(token):
 switch2[1]=case1
 relist.append(switch2)
 def code2(yytext,start,end):
-    print yytext,start,end
+    print yytext,start,end,linnum
 
 code.append(code2)
 
@@ -88,9 +88,16 @@ def next(str,i):
         i+=1
     return i
 if __name__ == '__main__':
-    f=open('t.py')
+    import sys
+    if len(sys.argv)<2:
+        s='t.py'
+    else:
+        s=sys.argv[1]
+    f=open(s)
     line=f.readlines()
+    linnum=-1
     for l in line:
+        linnum+=1
         if l[-1]!='\n':
             l+='\n'
         i=0

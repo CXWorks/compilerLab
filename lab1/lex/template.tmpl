@@ -43,9 +43,16 @@ def next(str,i):
         i+=1
     return i
 if __name__ == '__main__':
-    f=open('t.py')
+    import sys
+    if len(sys.argv)<2:
+        s='t.py'
+    else:
+        s=sys.argv[1]
+    f=open(s)
     line=f.readlines()
+    linnum=-1
     for l in line:
+        linnum+=1
         if l[-1]!='\n':
             l+='\n'
         i=0
