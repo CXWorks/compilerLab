@@ -206,8 +206,6 @@ def re2dfa(re):
                 n2c[c]=idd
             conn[n]=n2c
         #minimise
-        print conn
-        print table
         s=[]
         e=[]
         for k,v in table.items():
@@ -249,4 +247,4 @@ def re2dfa(re):
 
 
 if __name__ == '__main__':
-    print  re2dfa('(0|1)+')
+    re2dfa('(0|1)+')

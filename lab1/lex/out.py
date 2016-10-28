@@ -5,8 +5,10 @@ code=[]
 switch0={}
 def case0(token):
     way={}
-    way['
-']=1
+    way['1']=1
+    way['0']=1
+    way['3']=1
+    way['2']=1
     if way.has_key(token):
         return way[token]
     else:
@@ -14,6 +16,10 @@ def case0(token):
 switch0[0]=case0
 def case1(token):
     way={}
+    way['1']=1
+    way['0']=1
+    way['3']=1
+    way['2']=1
     if way.has_key(token):
         return way[token]
     else:
@@ -28,8 +34,9 @@ code.append(code0)
 switch1={}
 def case0(token):
     way={}
-    way['
-']=1
+    way['a']=1
+    way['c']=1
+    way['b']=1
     if way.has_key(token):
         return way[token]
     else:
@@ -37,6 +44,9 @@ def case0(token):
 switch1[0]=case0
 def case1(token):
     way={}
+    way['a']=1
+    way['c']=1
+    way['b']=1
     if way.has_key(token):
         return way[token]
     else:
@@ -51,8 +61,7 @@ code.append(code1)
 switch2={}
 def case0(token):
     way={}
-    way['
-']=1
+    way['=']=1
     if way.has_key(token):
         return way[token]
     else:

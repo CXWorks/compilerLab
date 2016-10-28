@@ -19,11 +19,11 @@ def parseCXL(p):
         i+=1
         if l[i]=='\n':
             continue
-        if l[i]=='*#':
+        if l[i][:2]=='*#':
             break
         if state==0:
             state=1
-            re.append(l[i])
+            re.append(l[i][:len(l[i])-1])
         else:
             state=0
             while l[i][:2]!='##':
@@ -34,6 +34,8 @@ def parseCXL(p):
                 co+=l[i]
                 i+=1
             code.append(co)
+            if l[i][:2]=='*#':
+                break
     return [re,code]
 
 
