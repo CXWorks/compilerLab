@@ -5,9 +5,8 @@ code=[]
 switch0={}
 def case0(token):
     way={}
-    way['a']=1
-    way['b']=2
-    way['+']=3
+    way['
+']=1
     if way.has_key(token):
         return way[token]
     else:
@@ -15,31 +14,11 @@ def case0(token):
 switch0[0]=case0
 def case1(token):
     way={}
-    way['a']=1
-    way['b']=2
-    way['+']=3
-    if way.has_key(token):
-        return way[token]
-    else:
-        return -1
-switch0[1]=case1
-def case2(token):
-    way={}
-    way['a']=1
-    way['b']=2
-    way['+']=3
-    if way.has_key(token):
-        return way[token]
-    else:
-        return -1
-switch0[2]=case2
-def case3(token):
-    way={}
     if way.has_key(token):
         return way[token]
     else:
         return -1206
-switch0[3]=case3
+switch0[1]=case1
 relist.append(switch0)
 def code0(yytext,start,end):
     print yytext,start,end
@@ -49,8 +28,8 @@ code.append(code0)
 switch1={}
 def case0(token):
     way={}
-    way['a']=1
-    way['b']=2
+    way['
+']=1
     if way.has_key(token):
         return way[token]
     else:
@@ -63,18 +42,34 @@ def case1(token):
     else:
         return -1206
 switch1[1]=case1
-def case2(token):
-    way={}
-    if way.has_key(token):
-        return way[token]
-    else:
-        return -1206
-switch1[2]=case2
 relist.append(switch1)
 def code1(yytext,start,end):
     print yytext,start,end
 
 code.append(code1)
+
+switch2={}
+def case0(token):
+    way={}
+    way['
+']=1
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1
+switch2[0]=case0
+def case1(token):
+    way={}
+    if way.has_key(token):
+        return way[token]
+    else:
+        return -1206
+switch2[1]=case1
+relist.append(switch2)
+def code2(yytext,start,end):
+    print yytext,start,end
+
+code.append(code2)
 
 
 
@@ -100,24 +95,32 @@ if __name__ == '__main__':
                 j=0
                 #do all the switch
                 while j<len(state):
-                    if state[j]==-1:
+                    if state[j]==-1 or state[j]==-2:
                         j+=1
                         continue
                     ans=relist[j][state[j]](l[i])
-                    if ans == -1206:
-                        find=True
-                        break
-                    elif ans == -1:
+                    if ans == -1:
                         n-=1
                     state[j]=ans
                     j+=1
+                k=0
+                for k in range(len(state)):
+                    st=state[k]
+                    if st == -1:
+                        continue
+                    elif st==-1206 and n>1:
+                        state[k]=-2
+                        n-=1
+                    elif st==-1206 and n==1:
+                        find=True
+                        break
                 if find :
                     #find
-                    code[j](l[start:i],start,i)
+                    code[k](l[start:i],start,i)
                     break
                 elif n==0 :
                     #not found
-                    i+=1
+                    i=start+1
                     break
                 else:
                     i+=1

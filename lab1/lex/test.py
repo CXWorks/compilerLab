@@ -24,6 +24,7 @@ def re2dfa(re):
                 full.append('.')
         full.append('$')
         # back
+
         back=[]
         symb=[]
         skip=False
@@ -56,6 +57,10 @@ def re2dfa(re):
                 while len(symb)>0 and symb[len(symb)-1]!='(' and _op_[symb[len(symb)-1]] >= _op_[c]:
                     back.append(symb.pop())
                 symb.append(c)
+            else:
+                back.append(c)
+                if c not in way:
+                    way.append(c)
         #build nfa
         stack=[]
         skip=False
@@ -111,6 +116,10 @@ def re2dfa(re):
                 ans.add_edge(0,n1+1,e='1')
                 ans.add_edge(n1,n1+n2+1,e='1')
                 stack.append(ans)
+            else:
+                g = nx.DiGraph()
+                g.add_edge(0, 1, c=c)
+                stack.append(g)
         return stack.pop()
 
 
@@ -197,6 +206,8 @@ def re2dfa(re):
                 n2c[c]=idd
             conn[n]=n2c
         #minimise
+        print conn
+        print table
         s=[]
         e=[]
         for k,v in table.items():
@@ -222,7 +233,11 @@ def re2dfa(re):
                 g.node[k]['e']=1
         for node,di in conn.items():
             for c,t in di.items():
-                g.add_edge(node,t,c=c)
+                # g.add_edge(node,t,)
+                if g.has_edge(node,t):
+                    g.edge[node][t]['c'].append(c)
+                else:
+                    g.add_edge(node, t,c=[c] )
         return g
 
     nfa = re2nfa(re)
@@ -234,4 +249,4 @@ def re2dfa(re):
 
 
 if __name__ == '__main__':
-    print  re2dfa('function')
+    print  re2dfa('(0|1)+')

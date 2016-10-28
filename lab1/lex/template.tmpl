@@ -57,24 +57,32 @@ if __name__ == '__main__':
                 j=0
                 #do all the switch
                 while j<len(state):
-                    if state[j]==-1:
+                    if state[j]==-1 or state[j]==-2:
                         j+=1
                         continue
                     ans=relist[j][state[j]](l[i])
-                    if ans == -1206:
-                        find=True
-                        break
-                    elif ans == -1:
+                    if ans == -1:
                         n-=1
                     state[j]=ans
                     j+=1
+                k=0
+                for k in range(len(state)):
+                    st=state[k]
+                    if st == -1:
+                        continue
+                    elif st==-1206 and n>1:
+                        state[k]=-2
+                        n-=1
+                    elif st==-1206 and n==1:
+                        find=True
+                        break
                 if find :
                     #find
-                    code[j](l[start:i],start,i)
+                    code[k](l[start:i],start,i)
                     break
                 elif n==0 :
                     #not found
-                    i+=1
+                    i=start+1
                     break
                 else:
                     i+=1
