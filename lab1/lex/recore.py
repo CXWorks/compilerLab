@@ -24,7 +24,6 @@ def re2dfa(re,debug=False):
                 full.append('.')
         full.append('$')
         # back
-
         back=[]
         symb=[]
         skip=False
@@ -239,6 +238,7 @@ def re2dfa(re,debug=False):
         return g
 
     nfa = re2nfa(re)
+
     g = nfa2dfa(nfa)
     if debug:
         return g
@@ -250,7 +250,7 @@ def re2dfa(re,debug=False):
 
 
 if __name__ == '__main__':
-    g=re2dfa('(0|1)+',debug=True)
+    g=re2dfa('(a|b)*a(a|b)(a|b)',debug=True)
     print g.node
     print g.edge
     nx.draw_networkx(g)
