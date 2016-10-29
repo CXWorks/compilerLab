@@ -2,26 +2,26 @@
 
 #### Table of contents
 - [Lex词法分析器Python版本实验说明](#lexpython)
-    - [环境依赖](#)
-    - [实验目标](#)
-    - [报告叙述思路](#)
-    - [Lex词法分析器用法](#lex)
-        - [.l文件的组织结构](#l)
-        - [Lex使用方法](#lex)
-        - [Lex的优秀之处](#lex)
-    - [pyLex使用说明书](#pylex)
-        - [.cxl文件结构](#cxl)
+    - [环境依赖](#环境依赖)
+    - [实验目标](#实验目标)
+    - [报告叙述思路](#报告叙述思路)
+    - [Lex词法分析器用法](#Lex词法分析器用法)
+        - [.l文件的组织结构](#.l文件的组织结构)
+        - [Lex使用方法](#Lex使用方法)
+        - [Lex的优秀之处](#Lex的优秀之处)
+    - [pyLex使用说明书](#pyLex使用说明书)
+        - [.cxl文件结构](#.cxl文件结构)
     - [正则表达式到[dfa](https://zh.wikipedia.org/wiki/%E7%A1%AE%E5%AE%9A%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E8%87%AA%E5%8A%A8%E6%9C%BA)](#dfahttpszhwikipediaorgwikie7a1aee5ae9ae69c89e99990e78ab6e68081e887aae58aa8e69cba)
-        - [正则表达式中缀转后缀并补全连接符](#)
+        - [正则表达式中缀转后缀并补全连接符](#正则表达式中缀转后缀并补全连接符)
         - [后缀的正则到[nfa](https://zh.wikipedia.org/wiki/%E9%9D%9E%E7%A1%AE%E5%AE%9A%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E8%87%AA%E5%8A%A8%E6%9C%BA)](#nfahttpszhwikipediaorgwikie99d9ee7a1aee5ae9ae69c89e99990e78ab6e68081e887aae58aa8e69cba)
-        - [nfa到dfa](#nfadfa)
-        - [最小化](#)
-        - [总结](#)
-    - [其他连接工作](#)
-        - [Cheetah模板引擎](#cheetah)
-        - [图到代码](#)
-        - [匹配输入文件](#)
-    - [结语](#)
+        - [nfa到dfa](#nfa到dfa)
+        - [最小化](#最小化)
+        - [总结](#总结)
+    - [其他连接工作](#其他连接工作)
+        - [Cheetah模板引擎](#Cheetah模板引擎)
+        - [图到代码](#图到代码)
+        - [匹配输入文件](#匹配输入文件)
+    - [结语](#结语)
 
 ## 环境依赖
 * Python 2.7(没有在3.5的情况下测试)
@@ -368,4 +368,4 @@ switch0代表第一层switch，函数里面的way代表第二层，其中case1�
 实验完成了一部分，这当中最大的收获是有关lex和汤普森先生的。
 </br>**对于软件工程更加有信心了，我们有GNU、APACHE等等的开源组织，并且他们的产品是顶级的尤其是GNU，他们的产品都是很底层、很麻烦又很困难的，像gcc等等，因此我将lex试用的文件夹命名为gaint，真的是站在巨人肩上的感觉**
 
-                                                                                                          cxworks@NJU
+**cxworks@NJU**
