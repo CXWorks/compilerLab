@@ -14,7 +14,6 @@ def analyze():
         t=sys.argv[1]
     test = deque(list('i+(i+i)*i$'))
     rr = {'r1': 'E=E+T', 'r2': 'E=T', 'r3': 'T=T*F', 'r4': 'T=F', 'r5': 'F=(E)', 'r6': 'F=i'}
-
     class CompiledError(StandardError):
         def __init__(self, arg):
             self.arg = arg
@@ -65,7 +64,6 @@ def analyze():
             tree.show()
             return
     raise CompiledError('%s compiled failed at %d, unexpected token' % (test[0],ltest-len(test)))
-
 if __name__ == '__main__':
     analyze()
 
