@@ -12,7 +12,7 @@ def analyze():
         t='table.csv'
     else:
         t=sys.argv[1]
-    test = deque(list('i+(i+i)*i$'))
+    test = deque(list('i+(i+i)*$'))
     rr = {'r1': 'E=E+T', 'r2': 'E=T', 'r3': 'T=T*F', 'r4': 'T=F', 'r5': 'F=(E)', 'r6': 'F=i'}
     class CompiledError(StandardError):
         def __init__(self, arg):
