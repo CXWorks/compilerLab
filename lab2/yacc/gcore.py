@@ -47,12 +47,29 @@ def G2nfa(G):
         for j in range(i-2):
             g.add_edge(j,j+1, c=l[j+2])
         g_s.append(g)
-    print way
-
-
-
-
-G2nfa(['s -> t d | v | s d | t','s -> f'])
+    # deal with nfa
+    leninex=[0]*len(g_s)
+    header=['a']*len(g_s)
+    for i in range(len(leninex)):
+        leninex[i]=len(g_s[i].node)
+        header[i]=g_s[i].node[0]['v'][0]
+    print  header
+    nfa=nx.DiGraph()
+    for g in g_s:
+        nfa=nx.disjoint_union(nfa,g)
+    for sn,list in nfa.edge.items():
+        for en,char in list.items():
+            if char['c'] in header:
+                for j in range(len(header)):
+                    if header[j]==char['c']:
+                        nodin=sum(leninex[:j])
+                        nfa.add_edge(sn,nodin,e=1)
+    nfa.add_node(len(nfa.node),f=1)
+    print nfa.node.keys()
+    for j in range(1,len(leninex)+1):
+        to=sum(leninex[:j])
+        nfa.add_edge(to-1,len(nfa.node)-1,e=1)
+    return nfa
 def findClo(g, node):
     ans = [node]
     # dfs
@@ -139,6 +156,8 @@ def nfa2dfa(nfa):
             n2c[c] = idd
         conn[n] = n2c
     # minimise
+    print conn
+    print table
     s = []
     e = []
     for k, v in table.items():
@@ -155,6 +174,7 @@ def nfa2dfa(nfa):
             continue
         for i in range(1, len(l)):
             conn = delnode(l[i], conn, table, l[0])
+
     # build graph
     g = nx.DiGraph()
     for k, v in table.items():
@@ -170,3 +190,11 @@ def nfa2dfa(nfa):
             else:
                 g.add_edge(node, t, c=[c])
     return g
+
+if __name__ == '__main__':
+
+    g=G2nfa(['s -> s + t','s -> t','t -> t * f','t -> f','f -> ( s )','f -> i'])
+    print g.edge
+    gg=nfa2dfa(g)
+    print gg.edge
+    print gg.node
