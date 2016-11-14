@@ -1,6 +1,5 @@
 import networkx as nx
 from collections import deque
-import matplotlib.pyplot as plt
 import re
 import pandas as pd
 from first_follow import first_follow
@@ -69,7 +68,7 @@ def G2nfa(G):
     for j in range(1,len(leninex)+1):
         to=sum(leninex[:j])
         nfa.add_edge(to-1,len(nfa.node)-1,e=1)
-    return nfa,coll
+    return nfa,coll,leninex
 def findClo(g, node):
     ans = [node]
     # dfs
@@ -155,7 +154,6 @@ def nfa2dfa(nfa):
                 idd = table.keys()[table.values().index(te)]
             n2c[c] = idd
         conn[n] = n2c
-    print table
     # minimise
     s = []
     e = []
@@ -188,13 +186,9 @@ def nfa2dfa(nfa):
                 g.edge[node][t]['c'].append(c)
             else:
                 g.add_edge(node, t, c=[c])
-    return g
+    return g,table
 
-def follow():
-    pass
-
-
-def generateTable(g):
+def generateTable(g,follow,table,nodec,coll):
     data=[]
     for sn,list in g.edge.items():
         item={}
@@ -209,18 +203,45 @@ def generateTable(g):
                         word=int(en)
                     item[it]=word
         data.append(item)
-
     df=pd.DataFrame(data)
+    nodeNum=[0]*len(nodec)
+    for i in xrange(1,len(nodec)+1):
+        nodeNum[i-1]=sum(nodec[:i])-1
+    for n,li in g.node.items():
+        if li.has_key('e'):
+            for num in table[n] :
+                if num in nodeNum:
+
+                    tar=nodeNum.index(num)
+                    nonter=coll[tar][0]
+                    foll=follow[nonter]
+                    for f in foll:
+                        if tar==0 :
+                            df.loc[n, f] = 'AC'
+                        else:
+                            df.loc[n,f]='r'+str(tar)
+    df.fillna('',inplace=True)
+    pd.DataFrame.to_csv(df,'table.csv')
     print df
 
 
 
-if __name__ == '__main__':
 
-    g,coll=G2nfa(['s -> s + t','s -> t','t -> t * f','t -> f','f -> ( s )','f -> i'])
-    print coll
-    first_follow(coll)
-    # print coll
-    # print g.edge
-    # gg=nfa2dfa(g)
-    # generateTable(gg)
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) <2:
+        na='rules.y'
+    else:
+        na=sys.argv[1]
+    f=open(na)
+    li=f.readlines();
+    #del \n
+    # ['s -> s + t', 's -> t', 't -> t * f', 't -> f', 'f -> ( s )', 'f -> i']
+    for i in xrange(len(li)):
+        if li[i][-1] == '\n':
+            li[i]=li[i][:-1]
+
+    g,coll,nodec=G2nfa(li)
+    st,ow=first_follow(coll)
+    gg,table=nfa2dfa(g)
+    generateTable(gg,ow,table,nodec,coll)

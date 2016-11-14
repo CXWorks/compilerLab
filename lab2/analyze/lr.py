@@ -1,4 +1,4 @@
-def analyze():
+def analyze(token):
     def getNext():
         i=0
         while True:
@@ -6,13 +6,16 @@ def analyze():
             i+=1
     import pandas as pd
     from collections import deque
-    import sys
+
     from treelib import Tree,Node
-    if len(sys.argv)<2:
-        t='table.csv'
-    else:
-        t=sys.argv[1]
-    test = deque(list('i+(i+i)*$'))
+    import re
+
+    tokens=[]
+    for l in token:
+        s=re.split(r' ',l)
+        tokens.append(s[0])
+    tokens.append('$')
+    test = deque(tokens)
     rr = {'r1': 'E=E+T', 'r2': 'E=T', 'r3': 'T=T*F', 'r4': 'T=F', 'r5': 'F=(E)', 'r6': 'F=i'}
     class CompiledError(StandardError):
         def __init__(self, arg):
@@ -22,7 +25,7 @@ def analyze():
     state=[0]
     symbolic=['$']
     ast=[]
-    table=pd.read_csv(t,index_col=0,na_filter=False)
+    table=pd.read_csv('table.csv',index_col=0,na_filter=False)
     ltest=len(test)
     while(len(test)!=0):
         if test[0] not in table.columns:
@@ -64,25 +67,17 @@ def analyze():
             tree.show()
             return
     raise CompiledError('%s compiled failed at %d, unexpected token' % (test[0],ltest-len(test)))
+
 if __name__ == '__main__':
-    analyze()
+    import sys
+    if len(sys.argv)<2:
+        analyze(list('i+(i+i)*i'))
+    else:
+        t=sys.argv[1]
+        f = open(t)
+        li = f.readlines()
+
+        analyze(li)
 
 
-# data=[('s5','','','s4','','',1,2,3),
-#       ('','s6','','','','AC','','',''),
-#       ('','r2','s7','','r2','r2','','',''),
-#       ('','r4','r4','','r4','r4','','',''),
-#       ('s5','','','s4','','',8,2,3),
-#       ('','r6','r6','','r6','r6','','',''),
-#       ('s5','','','s4','','','',9,3),
-#       ('s5','','','s4','','','','',10),
-#       ('','s6','','','s11','','','',''),
-#       ('','r1','s7','','r1','r1','','',''),
-#       ('','r3','r3','','r3','r3','','',''),
-#       ('','r5','r5','','r5','r5','','','')]
-#
-# index=[x for x in range(12)]
-# columns=['i','+','*','(',')','$','E','T','F']
-# table=pd.DataFrame(data=data,index=index,columns=columns)
-# print table
-# pd.DataFrame.to_csv(table,'table.csv')
+

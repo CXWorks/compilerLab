@@ -1,15 +1,11 @@
 def first_follow(rules):
     from collections import OrderedDict
     firsts = []  # Used as temp storage for firsts if needed
-
-    # Ordered dictionary to maintain the order of saving in the dictionary
-    # useful when doing the actual first finding in one pass.
     rules_dict = OrderedDict()  # Dictionary to store all the rules in the grammar
     firsts_dict = OrderedDict()  # Dictionary to store all the firsts
     follow_dict = OrderedDict()  # Dictionary that stores all follows
 
     def non_term_appender(firsts, rules):
-        """Adds the non terminals on the left to the firsts_dict"""
         for rule in rules:
             if rule[0] not in firsts:
                 firsts.append(rule[0])
@@ -40,10 +36,9 @@ def first_follow(rules):
     key_count = len(rules_keys)
     flag=True
     while flag:
-        print flag
         flag=False
         for k,lis in rules_dict.items():
-            if k == rules_keys[0]:
+            if k == rules_keys[0] and '$' not in follow_dict[k]:
                 follow_dict[k].append('$')
             for tmp_rule_str in lis:
 
@@ -53,7 +48,7 @@ def first_follow(rules):
                         current_non_term_index = tmp_rule_list.index(rules_keys[i])
 
                         if current_non_term_index == (len(tmp_rule_list) - 1):
-                            ext=[x for x in follow_dict[rules_keys[0]] if x not in follow_dict[rules_keys[i]]]
+                            ext=[x for x in follow_dict[k] if x not in follow_dict[rules_keys[i]]]
                             if len(ext)>0:
                                 flag=True
                                 follow_dict[rules_keys[i]].extend(ext)
@@ -69,6 +64,4 @@ def first_follow(rules):
                                 if len(ext)>0:
                                     flag=True
                                     follow_dict[rules_keys[i]].extend(ext)
-
-    print "Follow Dict:" + " " + follow_dict.__str__()
-    print "Firsts Dict:" + " " + firsts_dict.__str__()
+    return firsts_dict,follow_dict
