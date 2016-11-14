@@ -244,4 +244,5 @@ if __name__ == '__main__':
     g,coll,nodec=G2nfa(li)
     st,ow=first_follow(coll)
     gg,table=nfa2dfa(g)
+
     generateTable(gg,ow,table,nodec,coll)
